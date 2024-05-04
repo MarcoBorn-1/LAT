@@ -30,19 +30,29 @@ class PromoCodeTest {
 
     @Test
     void testIsPromoCodeValid_ExpiredCode() {
+        Product product = new Product("Product", BigDecimal.TEN, "USD");
         PromoCode code = new FixedDiscountPromoCode("ABC123", LocalDate.now().minusDays(1), 5, BigDecimal.valueOf(10), "USD");
-        assertThrows(IllegalStateException.class, code::isPromoCodeValid);
+        assertThrows(IllegalStateException.class, () -> code.isPromoCodeValid(product));
     }
 
     @Test
     void testIsPromoCodeValid_UsageExceeded() {
+        Product product = new Product("Product", BigDecimal.TEN, "USD");
         PromoCode code = new FixedDiscountPromoCode("ABC123", LocalDate.now().plusDays(1), 0, BigDecimal.valueOf(10), "USD");
-        assertThrows(IllegalStateException.class, code::isPromoCodeValid);
+        assertThrows(IllegalStateException.class, () -> code.isPromoCodeValid(product));
+    }
+
+    @Test
+    void testIsPromoCodeValid_InvalidCurrency() {
+        Product product = new Product("Product", BigDecimal.TEN, "PLN");
+        PromoCode code = new FixedDiscountPromoCode("ABC123", LocalDate.now().plusDays(1), 1, BigDecimal.valueOf(10), "USD");
+        assertThrows(IllegalStateException.class, () -> code.isPromoCodeValid(product));
     }
 
     @Test
     void testIsPromoCodeValid_ValidCode() {
+        Product product = new Product("Product", BigDecimal.TEN, "USD");
         PromoCode code = new FixedDiscountPromoCode("ABC123", LocalDate.now().plusDays(1), 1, BigDecimal.valueOf(10), "USD");
-        assertTrue(code.isPromoCodeValid());
+        assertTrue(code.isPromoCodeValid(product));
     }
 }

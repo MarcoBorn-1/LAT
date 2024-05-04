@@ -62,16 +62,19 @@ public abstract class PromoCode {
         }
     }
 
-    public boolean isPromoCodeValid() {
+    public boolean isPromoCodeValid(Product product) {
         if (!LocalDate.now().isBefore(expirationDate)) {
             throw new IllegalStateException("Promo code is expired");
         }
         else if (currentUsages >= maxUsages) {
             throw new IllegalStateException("Promo code is used up");
         }
+        else if (!product.getCurrency().equals(currency)) {
+            throw new IllegalStateException("The currency of the promo code " + code + " is not supported by the product's currency.");
+        }
 
         return true;
     }
 
-    public abstract BigDecimal calculateDiscount(BigDecimal price);
+    public abstract BigDecimal calculateDiscount(Product product);
 }

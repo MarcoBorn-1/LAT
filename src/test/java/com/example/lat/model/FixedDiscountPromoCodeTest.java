@@ -18,9 +18,9 @@ public class FixedDiscountPromoCodeTest {
     // 10$ item with 1$ discount - should equal 9$
     @Test
     void testCalculateDiscount_Valid() {
+        Product product = new Product("Product", BigDecimal.TEN, "USD");
         PromoCode promoCode = new FixedDiscountPromoCode("CODE", LocalDate.now().plusDays(1), 10, BigDecimal.ONE, "USD");
-        BigDecimal price = BigDecimal.TEN;
-        BigDecimal discountedPrice = promoCode.calculateDiscount(price);
+        BigDecimal discountedPrice = promoCode.calculateDiscount(product);
         BigDecimal expectedDiscountedPrice = BigDecimal.valueOf(9);
         assertEquals(discountedPrice, expectedDiscountedPrice);
     }
@@ -28,9 +28,9 @@ public class FixedDiscountPromoCodeTest {
     // 1$ item with 10$ discount - should equal 0$
     @Test
     void testCalculateDiscount_DiscountedPriceBelowZero() {
+        Product product = new Product("Product", BigDecimal.ONE, "USD");
         PromoCode promoCode = new FixedDiscountPromoCode("CODE", LocalDate.now().plusDays(1), 10, BigDecimal.TEN, "USD");
-        BigDecimal price = BigDecimal.ONE;
-        BigDecimal discountedPrice = promoCode.calculateDiscount(price);
+        BigDecimal discountedPrice = promoCode.calculateDiscount(product);
         BigDecimal expectedDiscountedPrice = BigDecimal.ZERO;
         assertEquals(discountedPrice, expectedDiscountedPrice);
     }

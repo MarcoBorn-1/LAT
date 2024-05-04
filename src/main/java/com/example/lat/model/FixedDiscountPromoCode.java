@@ -18,12 +18,12 @@ public class FixedDiscountPromoCode extends PromoCode {
     }
 
     @Override
-    public BigDecimal calculateDiscount(BigDecimal price) {
-        isPromoCodeValid();
-        BigDecimal discount = price.subtract(getDiscountAmount());
+    public BigDecimal calculateDiscount(Product product) {
+        isPromoCodeValid(product);
+        BigDecimal discount = product.getPrice().subtract(getDiscountAmount());
         if (discount.compareTo(BigDecimal.ZERO) < 0) {
             return BigDecimal.ZERO;
         }
-        else return discount;
+        return discount;
     }
 }
