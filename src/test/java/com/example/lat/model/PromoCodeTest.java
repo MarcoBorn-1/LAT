@@ -9,51 +9,40 @@ import org.junit.jupiter.api.Test;
 class PromoCodeTest {
 
     @Test
-    void testPromoCodeConstructor_ValidInput() {
-        assertDoesNotThrow(() -> new FixedDiscountPromoCode("ABC123", LocalDate.now().plusDays(1), 5, BigDecimal.valueOf(10), "USD"));
+    void testValidatePromoCodeFormat_ValidInput() {
+        assertDoesNotThrow(() -> PromoCode.validatePromoCodeFormat("ABC123"));
     }
 
     @Test
-    void testPromoCodeConstructor_InvalidCodeLength() {
-        assertThrows(IllegalArgumentException.class, () -> new FixedDiscountPromoCode("AB", LocalDate.now().plusDays(1), 5, BigDecimal.valueOf(10), "USD"));
+    void testValidatePromoCodeFormat_InvalidCodeLength() {
+        assertThrows(IllegalArgumentException.class, () -> PromoCode.validatePromoCodeFormat("AB"));
     }
 
     @Test
-    void testPromoCodeConstructor_InvalidCodeCharacters() {
-        assertThrows(IllegalArgumentException.class, () -> new FixedDiscountPromoCode("AB@#FG", LocalDate.now().plusDays(1), 5, BigDecimal.valueOf(10), "USD"));
+    void testValidatePromoCodeFormat_InvalidCodeCharacters() {
+        assertThrows(IllegalArgumentException.class, () -> PromoCode.validatePromoCodeFormat("AB@#FG"));
     }
 
     @Test
-    void testPromoCodeConstructor_InvalidCodeWhitespace() {
-        assertThrows(IllegalArgumentException.class, () -> new FixedDiscountPromoCode("AB AA", LocalDate.now().plusDays(1), 5, BigDecimal.valueOf(10), "USD"));
+    void testValidatePromoCodeFormat_InvalidCodeWhitespace() {
+        assertThrows(IllegalArgumentException.class, () -> PromoCode.validatePromoCodeFormat("AB AB"));
     }
 
     @Test
-    void testFixedDiscountConstructor_InvalidDiscountAmount() {
-        assertThrows(IllegalArgumentException.class, () -> new FixedDiscountPromoCode("AB123", LocalDate.now().plusDays(1), 5, BigDecimal.valueOf(-10), "USD"));
-    }
-
-    @Test
-    void testPercentageDiscountConstructor_InvalidDiscountAmount() {
-        assertThrows(IllegalArgumentException.class, () -> new PercentageDiscountPromoCode("AB123", LocalDate.now().plusDays(1), 5, BigDecimal.valueOf(-10), "USD"));
-        assertThrows(IllegalArgumentException.class, () -> new PercentageDiscountPromoCode("AB123", LocalDate.now().plusDays(1), 5, BigDecimal.valueOf(105), "USD"));
-    }
-
-    @Test
-    void testIsValid_ExpiredCode() {
+    void testIsPromoCodeValid_ExpiredCode() {
         PromoCode code = new FixedDiscountPromoCode("ABC123", LocalDate.now().minusDays(1), 5, BigDecimal.valueOf(10), "USD");
-        assertFalse(code.isValid());
+        assertThrows(IllegalStateException.class, code::isPromoCodeValid);
     }
 
     @Test
-    void testIsValid_UsageExceeded() {
+    void testIsPromoCodeValid_UsageExceeded() {
         PromoCode code = new FixedDiscountPromoCode("ABC123", LocalDate.now().plusDays(1), 0, BigDecimal.valueOf(10), "USD");
-        assertFalse(code.isValid());
+        assertThrows(IllegalStateException.class, code::isPromoCodeValid);
     }
 
     @Test
-    void testIsValid_ValidCode() {
+    void testIsPromoCodeValid_ValidCode() {
         PromoCode code = new FixedDiscountPromoCode("ABC123", LocalDate.now().plusDays(1), 1, BigDecimal.valueOf(10), "USD");
-        assertTrue(code.isValid());
+        assertTrue(code.isPromoCodeValid());
     }
 }

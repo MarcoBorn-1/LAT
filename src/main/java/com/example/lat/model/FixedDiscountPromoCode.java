@@ -1,26 +1,29 @@
 package com.example.lat.model;
 
-import javax.persistence.Entity;
+import com.example.lat.utility.PromoCodeType;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 public class FixedDiscountPromoCode extends PromoCode {
-    private BigDecimal discountAmount;
     
-    public FixedDiscountPromoCode(String code, LocalDate expirationDate, int maxUsages, BigDecimal discountAmount, String currency) {
-        super(code, expirationDate, maxUsages, currency);
-        if (discountAmount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Discount amount must be positive");
+    public FixedDiscountPromoCode(String code, LocalDate expirationDate, int maxUsages, BigDecimal discountAmount,
+                                  String currency) {
+        super(code, expirationDate, maxUsages, currency, PromoCodeType.FIXED);
+        if (discountAmount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Discount amount must be equal to or above 0");
         }
-        this.discountAmount = discountAmount;
+        setDiscountAmount(discountAmount);
     }
-    
+
     @Override
     public BigDecimal calculateDiscount(BigDecimal price) {
-        if (!isValid()) {
-            throw new IllegalStateException("Promo code is expired or used up");
+        isPromoCodeValid();
+        BigDecimal discount = price.subtract(getDiscountAmount());
+        if (discount.compareTo(BigDecimal.ZERO) < 0) {
+            return BigDecimal.ZERO;
         }
-        return price.subtract(discountAmount);
+        else return discount;
     }
 }
