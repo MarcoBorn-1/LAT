@@ -24,6 +24,6 @@ public class FixedDiscountPromoCode extends PromoCode {
         if (discountPrice.compareTo(BigDecimal.ZERO) < 0) {
             return BigDecimal.ZERO;
         }
-        return discountPrice;
+        return discountPrice.setScale(2);
     }
 }

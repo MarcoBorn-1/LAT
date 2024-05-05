@@ -21,7 +21,7 @@ public class FixedDiscountPromoCodeTest {
         Product product = new Product("Product", BigDecimal.TEN, "USD");
         PromoCode promoCode = new FixedDiscountPromoCode("CODE", LocalDate.now().plusDays(1), 10, BigDecimal.ONE, "USD");
         BigDecimal discountedPrice = promoCode.calculateDiscountPrice(product);
-        BigDecimal expectedDiscountedPrice = BigDecimal.valueOf(9);
+        BigDecimal expectedDiscountedPrice = BigDecimal.valueOf(9).setScale(2);
         assertEquals(discountedPrice, expectedDiscountedPrice);
     }
 
