@@ -83,4 +83,6 @@ public abstract class PromoCode {
     }
 
     public abstract BigDecimal calculateDiscountPrice(Product product);
+
+    public abstract BigDecimal calculateDiscount(Product product);
 }

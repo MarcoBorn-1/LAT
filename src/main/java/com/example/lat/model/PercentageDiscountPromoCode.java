@@ -21,9 +21,26 @@ public class PercentageDiscountPromoCode extends PromoCode {
     }
 
     @Override
+    public BigDecimal calculateDiscount(Product product) {
+        try {
+            isPromoCodeValid(product);
+            BigDecimal discount = product.getPrice().multiply(getDiscountAmount().divide(BigDecimal.valueOf(100)));
+            return discount.setScale(2);
+        }
+        catch (IllegalStateException e) {
+            return BigDecimal.ZERO;
+        }
+    }
+
+    @Override
     public BigDecimal calculateDiscountPrice(Product product) {
-        isPromoCodeValid(product);
-        BigDecimal discount = product.getPrice().multiply(getDiscountAmount().divide(BigDecimal.valueOf(100)));
-        return product.getPrice().subtract(discount).setScale(2);
+        try {
+            isPromoCodeValid(product);
+            BigDecimal discount = product.getPrice().multiply(getDiscountAmount().divide(BigDecimal.valueOf(100)));
+            return product.getPrice().subtract(discount).setScale(2);
+        }
+        catch (IllegalStateException e) {
+            return BigDecimal.ZERO;
+        }
     }
 }
