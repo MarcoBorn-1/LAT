@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 @Entity
@@ -13,7 +14,7 @@ public class Purchase {
         // If promo code is invalid, throws IllegalStateException with details inside the message
         code.isPromoCodeValid(product);
         this.purchaseDate = purchaseDate;
-        this.regularPrice = product.getPrice();
+        this.regularPrice = product.getPrice().setScale(2, RoundingMode.HALF_UP);
         this.discountAmount = code.calculateDiscount(product);
         this.product = product;
     }
@@ -21,7 +22,7 @@ public class Purchase {
     public Purchase(LocalDate purchaseDate, Product product) {
         this.purchaseDate = purchaseDate;
         this.regularPrice = product.getPrice();
-        this.discountAmount = BigDecimal.ZERO;
+        this.discountAmount = BigDecimal.ZERO.setScale(2);
         this.product = product;
     }
 

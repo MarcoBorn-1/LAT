@@ -26,8 +26,8 @@ class PurchaseTest {
     @Test
     void testPurchase_WithValidPromoCode() {
         LocalDate purchaseDate = LocalDate.of(2024, 5, 1);
-        BigDecimal productPrice = BigDecimal.valueOf(100);
-        BigDecimal discountAmount = BigDecimal.valueOf(20);
+        BigDecimal productPrice = BigDecimal.valueOf(100).setScale(2);
+        BigDecimal discountAmount = BigDecimal.valueOf(20).setScale(2);
 
         when(mockProduct.getPrice()).thenReturn(productPrice);
         when(mockPromoCode.calculateDiscount(mockProduct)).thenReturn(discountAmount);
@@ -43,7 +43,7 @@ class PurchaseTest {
     @Test
     void testPurchase_WithInvalidPromoCode() {
         LocalDate purchaseDate = LocalDate.of(2024, 5, 1);
-        BigDecimal productPrice = BigDecimal.valueOf(100);
+        BigDecimal productPrice = BigDecimal.valueOf(100).setScale(2);
 
         when(mockProduct.getPrice()).thenReturn(productPrice);
         when(mockPromoCode.calculateDiscount(mockProduct)).thenThrow(new IllegalStateException("Promo code is expired"));
@@ -62,7 +62,7 @@ class PurchaseTest {
 
         assertEquals(purchaseDate, purchase.getPurchaseDate());
         assertEquals(productPrice, purchase.getRegularPrice());
-        assertEquals(BigDecimal.ZERO, purchase.getDiscountAmount());
+        assertEquals(BigDecimal.ZERO.setScale(2), purchase.getDiscountAmount());
         assertEquals(mockProduct, purchase.getProduct());
     }
 }

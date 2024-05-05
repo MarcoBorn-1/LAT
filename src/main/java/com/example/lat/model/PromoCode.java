@@ -4,6 +4,7 @@ import com.example.lat.utility.PromoCodeType;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.regex.Pattern;
 
@@ -56,7 +57,7 @@ public abstract class PromoCode {
         if (discountAmount.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Discount amount must be equal to or above 0");
         }
-        this.discountAmount = discountAmount;
+        this.discountAmount = discountAmount.setScale(2, RoundingMode.HALF_UP);
     }
 
     public static void validatePromoCodeFormat(String code) {

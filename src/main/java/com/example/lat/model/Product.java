@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Entity
 @Getter
@@ -16,7 +17,7 @@ public class Product {
         }
         this.name = name;
         this.description = description;
-        this.price = price;
+        this.price = price.setScale(2, RoundingMode.HALF_UP);
         this.currency = currency;
     }
 
@@ -26,7 +27,7 @@ public class Product {
         }
         this.name = name;
         this.description = null;
-        this.price = price;
+        this.price = price.setScale(2, RoundingMode.HALF_UP);
         this.currency = currency;
     }
 
