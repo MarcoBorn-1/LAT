@@ -53,6 +53,9 @@ public abstract class PromoCode {
     }
 
     public void setDiscountAmount(BigDecimal discountAmount) {
+        if (discountAmount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Discount amount must be equal to or above 0");
+        }
         this.discountAmount = discountAmount;
     }
 

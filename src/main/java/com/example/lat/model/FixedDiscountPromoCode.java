@@ -11,9 +11,6 @@ public class FixedDiscountPromoCode extends PromoCode {
     public FixedDiscountPromoCode(String code, LocalDate expirationDate, int maxUsages, BigDecimal discountAmount,
                                   String currency) {
         super(code, expirationDate, maxUsages, currency, PromoCodeType.FIXED);
-        if (discountAmount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Discount amount must be equal to or above 0");
-        }
         setDiscountAmount(discountAmount);
     }
 
