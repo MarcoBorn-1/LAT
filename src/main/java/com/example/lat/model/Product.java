@@ -30,6 +30,9 @@ public class Product {
         this.currency = currency;
     }
 
+    public Product() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

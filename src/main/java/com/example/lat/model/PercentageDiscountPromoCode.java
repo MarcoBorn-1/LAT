@@ -20,6 +20,9 @@ public class PercentageDiscountPromoCode extends PromoCode {
         setDiscountAmount(discountPercentage);
     }
 
+    public PercentageDiscountPromoCode() {
+    }
+
     @Override
     public BigDecimal calculateDiscount(Product product) {
         isPromoCodeValid(product);

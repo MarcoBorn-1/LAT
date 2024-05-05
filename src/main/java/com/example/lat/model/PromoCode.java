@@ -20,6 +20,9 @@ public abstract class PromoCode {
         this.type = type;
     }
 
+    public PromoCode() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

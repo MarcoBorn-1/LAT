@@ -17,6 +17,9 @@ public class FixedDiscountPromoCode extends PromoCode {
         setDiscountAmount(discountAmount);
     }
 
+    public FixedDiscountPromoCode() {
+    }
+
     @Override
     public BigDecimal calculateDiscount(Product product) {
         isPromoCodeValid(product);
