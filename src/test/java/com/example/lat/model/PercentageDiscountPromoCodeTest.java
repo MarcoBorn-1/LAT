@@ -18,19 +18,19 @@ public class PercentageDiscountPromoCodeTest {
 
     // 10$ item with 10% discount - should equal 9$
     @Test
-    void testCalculateDiscount_Valid() {
+    void testCalculateDiscountPrice_Valid() {
         Product product = new Product("Product", BigDecimal.TEN, "USD");
         PromoCode promoCode = new PercentageDiscountPromoCode("CODE", LocalDate.now().plusDays(1), 10, BigDecimal.TEN, "USD");
-        BigDecimal discountedPrice = promoCode.calculateDiscount(product);
+        BigDecimal discountedPrice = promoCode.calculateDiscountPrice(product);
         BigDecimal expectedDiscountedPrice = BigDecimal.valueOf(9).setScale(2);
         assertEquals(discountedPrice, expectedDiscountedPrice);
     }
 
     @Test
-    void testCalculateDiscount_PriceIsZero() {
+    void testCalculateDiscountPrice_PriceIsZero() {
         Product product = new Product("Product", BigDecimal.ZERO, "USD");
         PromoCode promoCode = new PercentageDiscountPromoCode("CODE", LocalDate.now().plusDays(1), 10, BigDecimal.TEN, "USD");
-        BigDecimal discountedPrice = promoCode.calculateDiscount(product);
+        BigDecimal discountedPrice = promoCode.calculateDiscountPrice(product);
         BigDecimal expectedDiscountedPrice = BigDecimal.ZERO.setScale(2);
         assertEquals(discountedPrice, expectedDiscountedPrice);
     }

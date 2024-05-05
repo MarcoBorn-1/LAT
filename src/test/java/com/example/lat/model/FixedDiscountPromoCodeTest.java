@@ -20,7 +20,7 @@ public class FixedDiscountPromoCodeTest {
     void testCalculateDiscount_Valid() {
         Product product = new Product("Product", BigDecimal.TEN, "USD");
         PromoCode promoCode = new FixedDiscountPromoCode("CODE", LocalDate.now().plusDays(1), 10, BigDecimal.ONE, "USD");
-        BigDecimal discountedPrice = promoCode.calculateDiscount(product);
+        BigDecimal discountedPrice = promoCode.calculateDiscountPrice(product);
         BigDecimal expectedDiscountedPrice = BigDecimal.valueOf(9);
         assertEquals(discountedPrice, expectedDiscountedPrice);
     }
@@ -30,7 +30,7 @@ public class FixedDiscountPromoCodeTest {
     void testCalculateDiscount_DiscountedPriceBelowZero() {
         Product product = new Product("Product", BigDecimal.ONE, "USD");
         PromoCode promoCode = new FixedDiscountPromoCode("CODE", LocalDate.now().plusDays(1), 10, BigDecimal.TEN, "USD");
-        BigDecimal discountedPrice = promoCode.calculateDiscount(product);
+        BigDecimal discountedPrice = promoCode.calculateDiscountPrice(product);
         BigDecimal expectedDiscountedPrice = BigDecimal.ZERO;
         assertEquals(discountedPrice, expectedDiscountedPrice);
     }
