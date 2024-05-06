@@ -3,9 +3,9 @@ A Spring Boot application to manage discount codes for sales or promotions (a.k.
 
 ## API Endpoints
 ### Product (/api/product)
-1. Create a new product **[POST]**
+1. Create a new product 
 
-URL:
+URL: **[POST]** 
 ```
 localhost:8080/api/product/create
 ```
@@ -18,15 +18,15 @@ Example body:
     "currency": "USD"
 }
 ```
-2. Get all products **[GET]**
+2. Get all products
 
-URL:
+URL: **[GET]** 
 ```
 localhost:8080/api/product/getAll
 ```
-3. Update product data **[PATCH]**
+3. Update product data 
 
-URL:
+URL: **[PATCH]** 
 ```
 localhost:8080/api/product/update/{id}
 ```
@@ -37,9 +37,9 @@ Example body (can take one or more fields):
 }
 ```
 ### PromoCode (/api/promo-code)
-4. Create a new promo code. **[POST]**
+4. Create a new promo code. 
 
-URL:
+URL: **[POST]** 
 ```
 localhost:8080/api/promo-code/create
 ```
@@ -65,15 +65,15 @@ Example body (for percentage discount):
     "type": "PERCENTAGE"
 }
 ```
-5. Get all promo codes. **[GET]**
+5. Get all promo codes. 
 
-URL:
+URL: **[GET]** 
 ```
 localhost:8080/api/promo-code/getAll
 ```
-6. Get one promo code's details by providing the promo code. **[GET]**
+6. Get one promo code's details by providing the promo code. 
 
-URL:
+URL: **[GET]** 
 ```
 localhost:8080/api/promo-code/{code}
 ```
@@ -83,8 +83,9 @@ localhost:8080/api/promo-code/1
 ```
 
 ### Discount (/api/discount)
-7. Get the discount price by providing a product and a promo code. **[GET]**
-URL:
+7. Get the discount price by providing a product and a promo code.
+
+URL: **[GET]** 
 ```
 localhost:8080/api/discount/calculate
 ```
@@ -99,9 +100,9 @@ localhost:8080/api/discount/calculate?productId=1&promoCode=CODE
 ```
 
 ### Purchase (/api/purchase)
-8. Simulate purchase **[POST]**
+8. Simulate purchase
 
-URL:
+URL: **[POST]**
 ```
 localhost:8080/api/purchase/buy
 ```
@@ -116,7 +117,7 @@ localhost:8080/api/purchase/buy?productId=1&promoCode=CODE
 ```
 9. A sales report: number of purchases and total value by currency **[GET]**
 
-URL:
+URL: **[GET]** 
 ```
 localhost:8080/api/purchase/report
 ```
