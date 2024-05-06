@@ -12,22 +12,16 @@ import java.math.RoundingMode;
 @Setter
 public class Product {
     public Product(String name, String description, BigDecimal price, String currency) {
-        if (price.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Product price cannot be negative");
-        }
         this.name = name;
         this.description = description;
-        this.price = price.setScale(2, RoundingMode.HALF_UP);
+        this.price = validatePrice(price);
         this.currency = currency;
     }
 
     public Product(String name, BigDecimal price, String currency) {
-        if (price.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Product price cannot be negative");
-        }
         this.name = name;
         this.description = null;
-        this.price = price.setScale(2, RoundingMode.HALF_UP);
+        this.price = validatePrice(price);
         this.currency = currency;
     }
 
@@ -45,4 +39,11 @@ public class Product {
     private BigDecimal price;
     @Column(nullable = false)
     private String currency;
+
+    public BigDecimal validatePrice(BigDecimal price) {
+        if (price.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Product price cannot be negative");
+        }
+        return price.setScale(2, RoundingMode.HALF_UP);
+    }
 }
