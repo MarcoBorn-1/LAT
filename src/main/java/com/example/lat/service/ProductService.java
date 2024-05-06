@@ -7,7 +7,6 @@ import com.example.lat.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -72,5 +71,12 @@ public class ProductService {
         else {
             throw new NoSuchElementException("No product with given ID exists");
         }
+    }
+
+    // Get product by ID and check, if it exists
+    public Product getProductById(Long productId) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if (optionalProduct.isEmpty()) throw new NoSuchElementException("Product with ID " + productId + " not found!");
+        return optionalProduct.get();
     }
 }
