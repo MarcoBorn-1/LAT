@@ -40,6 +40,10 @@ public class Product {
     @Column(nullable = false)
     private String currency;
 
+    public void setPrice(BigDecimal price) {
+        this.price = validatePrice(price);
+    }
+
     public BigDecimal validatePrice(BigDecimal price) {
         if (price.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Product price cannot be negative");
