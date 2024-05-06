@@ -2,6 +2,7 @@ package com.example.lat.model;
 
 import com.example.lat.utility.PromoCodeType;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 @Entity
+@Getter
 public abstract class PromoCode {
     protected PromoCode(String code, LocalDate expirationDate, int maxUsages,
                      String currency, PromoCodeType type) {
@@ -49,10 +51,6 @@ public abstract class PromoCode {
 
     @Column(nullable = false)
     private PromoCodeType type;
-
-    public BigDecimal getDiscountAmount() {
-        return discountAmount;
-    }
 
     public void setDiscountAmount(BigDecimal discountAmount) {
         if (discountAmount.compareTo(BigDecimal.ZERO) < 0) {
