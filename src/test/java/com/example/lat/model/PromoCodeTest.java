@@ -55,4 +55,10 @@ class PromoCodeTest {
         PromoCode code = new FixedDiscountPromoCode("ABC123", LocalDate.now().plusDays(1), 1, BigDecimal.valueOf(10), "USD");
         assertTrue(code.isPromoCodeValid(product));
     }
+
+    @Test
+    void testValidateMaxUsages_InvalidNumber() {
+        int maxUsages = -10;
+        assertThrows(IllegalArgumentException.class, () -> PromoCode.validateMaxUsages(maxUsages));
+    }
 }
