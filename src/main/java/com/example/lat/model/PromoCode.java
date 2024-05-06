@@ -13,6 +13,7 @@ public abstract class PromoCode {
     protected PromoCode(String code, LocalDate expirationDate, int maxUsages,
                      String currency, PromoCodeType type) {
         validatePromoCodeFormat(code);
+        validateMaxUsages(maxUsages);
         this.code = code;
         this.expirationDate = expirationDate;
         this.maxUsages = maxUsages;
@@ -58,6 +59,12 @@ public abstract class PromoCode {
             throw new IllegalArgumentException("Discount amount must be equal to or above 0");
         }
         this.discountAmount = discountAmount.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    public static void validateMaxUsages(int maxUsages) {
+        if (maxUsages < 0) {
+            throw new IllegalArgumentException("Maximum usages must be equal to or above 0");
+        }
     }
 
     public static void validatePromoCodeFormat(String code) {
