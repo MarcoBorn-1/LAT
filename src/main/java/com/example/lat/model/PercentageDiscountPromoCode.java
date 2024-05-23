@@ -22,26 +22,16 @@ public class PercentageDiscountPromoCode extends PromoCode {
     }
 
     @Override
-    public BigDecimal calculateDiscount(Product product) {
-        try {
-            isPromoCodeValid(product);
-            BigDecimal discount = product.getPrice().multiply(getDiscountAmount().divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
-            return discount.setScale(2, RoundingMode.HALF_UP);
-        }
-        catch (IllegalStateException e) {
-            return BigDecimal.ZERO;
-        }
+    public BigDecimal calculateDiscount(Product product) throws IllegalStateException {
+        isPromoCodeValid(product);
+        BigDecimal discount = product.getPrice().multiply(getDiscountAmount().divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
+        return discount.setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override
     public BigDecimal calculateDiscountPrice(Product product) {
-        try {
-            isPromoCodeValid(product);
-            BigDecimal discount = product.getPrice().multiply(getDiscountAmount().divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
-            return product.getPrice().subtract(discount).setScale(2, RoundingMode.HALF_UP);
-        }
-        catch (IllegalStateException e) {
-            return BigDecimal.ZERO;
-        }
+        isPromoCodeValid(product);
+        BigDecimal discount = product.getPrice().multiply(getDiscountAmount().divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
+        return product.getPrice().subtract(discount).setScale(2, RoundingMode.HALF_UP);
     }
 }

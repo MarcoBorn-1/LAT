@@ -59,6 +59,12 @@ public abstract class PromoCode {
         this.discountAmount = discountAmount.setScale(2, RoundingMode.HALF_UP);
     }
 
+    public void incrementUsages() {
+        if (currentUsages < maxUsages) {
+            currentUsages++;
+        }
+    }
+
     public static void validateMaxUsages(int maxUsages) {
         if (maxUsages < 0) {
             throw new IllegalArgumentException("Maximum usages must be equal to or above 0");

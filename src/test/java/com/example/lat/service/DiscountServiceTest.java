@@ -38,10 +38,10 @@ public class DiscountServiceTest {
 
         // Mock repository methods
         when(productService.getProductById(1L)).thenReturn(product);
-        when(promoCodeService.getPromoCodeByCode("CODE123")).thenReturn(promoCode);
+        when(promoCodeService.getPromoCodeByCode("CODE")).thenReturn(promoCode);
 
         // Test method
-        DiscountDTO discountDTO = discountService.calculateProductDiscountWithCode(1L, "CODE123");
+        DiscountDTO discountDTO = discountService.calculateProductDiscountWithCode(1L, "CODE");
 
         // Verify
         assertEquals(BigDecimal.valueOf(90).setScale(2), discountDTO.getDiscountedPrice());
@@ -71,5 +71,28 @@ public class DiscountServiceTest {
 
         // Test method and assert exception
         assertThrows(NoSuchElementException.class, () -> discountService.calculateProductDiscountWithCode(1L, "INVALID_CODE"));
+    }
+
+    @Test
+    public void testCalculateDiscountPrice_ExpiredPromoCode() {
+        // Mock product
+        Product product = new Product("Product", "A new product", BigDecimal.valueOf(10), "USD");
+        product.setPrice(BigDecimal.valueOf(100));
+
+        // Mock promo code
+        PromoCode promoCode = new PercentageDiscountPromoCode("CODE", LocalDate.now().minusDays(1), 10, BigDecimal.TEN, "USD");
+
+        // Mock repository methods
+        when(productService.getProductById(1L)).thenReturn(product);
+        when(promoCodeService.getPromoCodeByCode("CODE")).thenReturn(promoCode);
+
+        // Test method
+        DiscountDTO discountDTO = discountService.calculateProductDiscountWithCode(1L, "CODE");
+
+        // Verify
+        assertEquals(BigDecimal.valueOf(100).setScale(2), discountDTO.getDiscountedPrice());
+        assertEquals(BigDecimal.ZERO.setScale(2), discountDTO.getDiscount());
+        assertEquals(BigDecimal.valueOf(100).setScale(2), discountDTO.getRegularPrice());
+        assertNotNull(discountDTO.getWarning());
     }
 }

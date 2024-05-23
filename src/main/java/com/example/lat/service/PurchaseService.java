@@ -4,6 +4,7 @@ import com.example.lat.dto.SalesReportDTO;
 import com.example.lat.model.Product;
 import com.example.lat.model.PromoCode;
 import com.example.lat.model.Purchase;
+import com.example.lat.repository.PromoCodeRepository;
 import com.example.lat.repository.PurchaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,14 +19,17 @@ public class PurchaseService {
     private final ProductService productService;
     private final PromoCodeService promoCodeService;
     private final PurchaseRepository purchaseRepository;
+    private final PromoCodeRepository promoCodeRepository;
 
     @Autowired
     public PurchaseService(ProductService productService,
                            PromoCodeService promoCodeService,
-                           PurchaseRepository purchaseRepository) {
+                           PurchaseRepository purchaseRepository,
+                           PromoCodeRepository promoCodeRepository) {
         this.productService = productService;
         this.promoCodeService = promoCodeService;
         this.purchaseRepository = purchaseRepository;
+        this.promoCodeRepository = promoCodeRepository;
     }
 
     public Purchase buyItem(Long itemId, String code) {
@@ -56,6 +60,11 @@ public class PurchaseService {
 
         // Save into database
         purchaseRepository.save(purchase);
+
+        // Add one code usage into promo code and update database
+        promoCode.incrementUsages();
+        promoCodeRepository.save(promoCode);
+
         return purchase;
     }
 
